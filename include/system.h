@@ -91,7 +91,9 @@ E int FDECL(srandom, (unsigned int));
 #endif
 #endif
 #else
-#if defined(MACOSX)
+
+#include <unistd.h>
+#ifndef HAVE_SRAND48
 E long NDECL(lrand48);
 E void FDECL(srand48, (long));
 #else
@@ -351,17 +353,20 @@ E char *FDECL(memset, (char *, int, int));
 #endif /* TOS */
 #endif /* MICRO */
 
+#include <unistd.h>
+#ifndef HAVE_SLEEP
 #if defined(BSD) && defined(ultrix) /* i.e., old versions of Ultrix */
 E void sleep();
 #endif
 #if defined(ULTRIX) || defined(SYSV)
-E unsigned sleep();
+E unsigned sleep(unsigned int);
 #endif
 #if defined(HPUX)
 E unsigned int FDECL(sleep, (unsigned int));
 #endif
 #ifdef VMS
 E int FDECL(sleep, (unsigned));
+#endif
 #endif
 
 E char *FDECL(getenv, (const char *));
